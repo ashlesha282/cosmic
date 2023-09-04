@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
   Card,
@@ -23,25 +23,25 @@ import {
   DialogContent,
   DialogContentText,
   Typography,
-} from "@mui/material";
-import { Helmet } from "react-helmet";
-import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
-import SidebarLeft from "../../../components/Sidebar/SidebarLeft";
-import Course from "../../../assets/images/Course.jpg";
-import BASE_URL from "../../../Utils/baseUrl";
-import token from "../../../Utils/token";
-import Network from "../../../Utils/network";
-import { useTheme } from "@mui/material/styles";
-import CheckTokenValid from "../../../components/Redirect/CheckTokenValid";
+} from '@mui/material';
+import { Helmet } from 'react-helmet';
+import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
+import SidebarLeft from '../../../components/Sidebar/SidebarLeft';
+import Course from '../../../assets/images/Course.jpg';
+import BASE_URL from '../../../Utils/baseUrl';
+import token from '../../../Utils/token';
+import Network from '../../../Utils/network';
+import { useTheme } from '@mui/material/styles';
+import CheckTokenValid from '../../../components/Redirect/CheckTokenValid';
 
 const options = [
   {
-    label: "Manage",
-    link: "/course/manage",
+    label: 'Manage',
+    link: '/course/manage',
   },
   {
-    label: "Update",
-    link: "/course/update",
+    label: 'Update',
+    link: '/course/update',
   },
 ];
 
@@ -53,26 +53,26 @@ const Subjects = () => {
   const primaryColor = theme.palette.primary.main;
   const successColor = theme.palette.success.main;
   // State Manage
-  const [filterOption, setFilterOption] = useState("all");
-  const [courses, setCourses] = useState("");
   const [loading, setLoading] = useState(true);
-  const [searchTitle, setSearchTitle] = useState("");
+  const [courses, setCourses] = useState('');
+  const [searchTitle, setSearchTitle] = useState('');
+  const [filterOption, setFilterOption] = useState('all');
   // Authorization
   const myHeaders = new Headers();
-  myHeaders.append("Authorization", `Bearer ${token}`);
-  myHeaders.append("Network", `${Network}`);
+  myHeaders.append('Authorization', `Bearer ${token}`);
+  myHeaders.append('Network', `${Network}`);
 
   const handleFilterChange = (event) => {
     setFilterOption(event.target.value);
   };
 
-  // Fetch Course list
+  // Fetch Subjects list
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchSubjects = async () => {
       const requestOptions = {
-        method: "GET",
+        method: 'GET',
         headers: myHeaders,
-        redirect: "follow",
+        redirect: 'follow',
       };
       try {
         const response = await fetch(`${BASE_URL}/course/list`, requestOptions);
@@ -80,11 +80,11 @@ const Subjects = () => {
         setCourses(result.payload.data);
         setLoading(false);
       } catch (error) {
-        console.log("error", error);
+        console.log('error', error);
         setLoading(false);
       }
     };
-    fetchCourses();
+    fetchSubjects();
   }, []);
 
   const filteredCourse =
@@ -93,19 +93,19 @@ const Subjects = () => {
       const searchVal = `${course.title} ${course.description}`.toLowerCase();
       const searchValue = searchTitle.toLowerCase();
 
-      if (filterOption === "all") {
+      if (filterOption === 'all') {
         return searchVal.includes(searchValue);
-      } else if (filterOption === "published") {
+      } else if (filterOption === 'published') {
         return (
-          searchVal.includes(searchValue) && course.status === "1" // Published courses
+          searchVal.includes(searchValue) && course.status === '1' // Published courses
         );
-      } else if (filterOption === "unpublished") {
+      } else if (filterOption === 'unpublished') {
         return (
-          searchVal.includes(searchValue) && course.status === "0" // Unpublished courses
+          searchVal.includes(searchValue) && course.status === '0' // Unpublished courses
         );
-      } else if (filterOption === "archive") {
+      } else if (filterOption === 'archive') {
         return (
-          searchVal.includes(searchValue) && course.status === "2" // Archived courses
+          searchVal.includes(searchValue) && course.status === '2' // Archived courses
         );
       }
 
@@ -165,9 +165,9 @@ const Subjects = () => {
   const handleBulkDeleteUser = async () => {
     setActionConfirmOpen(false);
     const requestOptions = {
-      method: "DELETE",
+      method: 'DELETE',
       headers: myHeaders,
-      redirect: "follow",
+      redirect: 'follow',
     };
     try {
       const res = await fetch(
@@ -199,25 +199,25 @@ const Subjects = () => {
       <Helmet>
         <title>All Subjects</title>
       </Helmet>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: 'flex' }}>
         <SidebarLeft />
         <Dialog
           open={actionConfirmOpen}
           onClose={actionConfirmClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+          aria-labelledby='alert-dialog-title'
+          aria-describedby='alert-dialog-description'
         >
-          <DialogTitle id="alert-dialog-title">Confirm Delete</DialogTitle>
+          <DialogTitle id='alert-dialog-title'>Confirm Delete</DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
+            <DialogContentText id='alert-dialog-description'>
               Are you sure you want to delete this course?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={actionConfirmClose} color="primary">
+            <Button onClick={actionConfirmClose} color='primary'>
               Cancel
             </Button>
-            <Button onClick={handleBulkDeleteUser} color="primary" autoFocus>
+            <Button onClick={handleBulkDeleteUser} color='primary' autoFocus>
               Confirm
             </Button>
           </DialogActions>
@@ -226,12 +226,12 @@ const Subjects = () => {
           open={alertOpen}
           autoHideDuration={3000}
           onClose={() => setIsActionSuccess(false)}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
-          <Alert severity={isActionSuccess === true ? "success" : "warning"}>
+          <Alert severity={isActionSuccess === true ? 'success' : 'warning'}>
             {isActionSuccess === true
-              ? "Course Deleted Successfully"
-              : "Course not deleted."}
+              ? 'Course Deleted Successfully'
+              : 'Course not deleted.'}
           </Alert>
         </Snackbar>
 
@@ -240,18 +240,18 @@ const Subjects = () => {
             <Grid item xs={6}>
               <h1>All Subjects</h1>
             </Grid>
-            <Grid item xs={6} sx={{ display: "flex", justifyContent: "right" }}>
+            <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'right' }}>
               <Button
                 component={Link}
                 href={`/course/${courseGuid}/subject/create`}
-                variant="contained"
+                variant='contained'
               >
                 Create Subject
               </Button>
             </Grid>
           </Grid>
           {loading ? (
-            <Box sx={{ textAlign: "center", mt: 5 }}>
+            <Box sx={{ textAlign: 'center', mt: 5 }}>
               <CircularProgress />
             </Box>
           ) : courses && courses.length !== 0 ? (
@@ -259,31 +259,31 @@ const Subjects = () => {
               <Grid
                 container
                 spacing={2}
-                sx={{ mt: 3, justifyContent: "space-between" }}
+                sx={{ mt: 3, justifyContent: 'space-between' }}
               >
                 <Grid item xs={12} md={4}>
                   <TextField
-                    label="Search by title and description"
-                    placeholder="Search by title"
+                    label='Search by title and description'
+                    placeholder='Search by title'
                     value={searchTitle}
                     onChange={(e) => setSearchTitle(e.target.value)}
-                    sx={{ width: "100%" }}
+                    sx={{ width: '100%' }}
                   />
                 </Grid>
                 <Grid item xs={12} md={2}>
                   <FormControl fullWidth>
-                    <InputLabel id="filter-label">Filter by Status</InputLabel>
+                    <InputLabel id='filter-label'>Filter by Status</InputLabel>
                     <Select
-                      labelId="filter-label"
-                      label="Filter by Status"
-                      id="filter-select"
+                      labelId='filter-label'
+                      label='Filter by Status'
+                      id='filter-select'
                       value={filterOption}
                       onChange={handleFilterChange}
                     >
-                      <MenuItem value="all">All</MenuItem>
-                      <MenuItem value="published">Published</MenuItem>
-                      <MenuItem value="unpublished">Unpublished</MenuItem>
-                      <MenuItem value="archive">Archive</MenuItem>
+                      <MenuItem value='all'>All</MenuItem>
+                      <MenuItem value='published'>Published</MenuItem>
+                      <MenuItem value='unpublished'>Unpublished</MenuItem>
+                      <MenuItem value='archive'>Archive</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
@@ -292,7 +292,7 @@ const Subjects = () => {
                 container
                 spacing={2}
                 sx={{ mt: 2 }}
-                className="manage-course"
+                className='manage-course'
               >
                 <Grid item xs={12}>
                   {currentCourse && currentCourse.length !== 0 ? (
@@ -303,10 +303,10 @@ const Subjects = () => {
                             <Grid
                               container
                               sx={{
-                                borderBottom: "1px solid #B8B8B8",
+                                borderBottom: '1px solid #B8B8B8',
                                 py: 2,
-                                alignItems: "center",
-                                justifyContent: "space-between",
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
                               }}
                             >
                               <Grid
@@ -314,44 +314,44 @@ const Subjects = () => {
                                 xs={12}
                                 md={1}
                                 sx={{
-                                  display: { xs: "flex", md: "block" },
-                                  justifyContent: { xs: "space-between" },
+                                  display: { xs: 'flex', md: 'block' },
+                                  justifyContent: { xs: 'space-between' },
                                 }}
                               >
-                                <Box className="course-image">
+                                <Box className='course-image'>
                                   <img
                                     src={Course}
                                     alt={course.title}
-                                    loading="lazy"
+                                    loading='lazy'
                                   />
                                 </Box>
                                 <Grid
                                   item
-                                  sx={{ display: { xs: "block", md: "none" } }}
+                                  sx={{ display: { xs: 'block', md: 'none' } }}
                                 >
                                   <IconButton
-                                    aria-label="more"
-                                    id="long-button1"
+                                    aria-label='more'
+                                    id='long-button1'
                                     aria-controls={
-                                      open ? "long-menu" : undefined
+                                      open ? 'long-menu' : undefined
                                     }
-                                    aria-expanded={open ? "true" : undefined}
-                                    aria-haspopup="true"
+                                    aria-expanded={open ? 'true' : undefined}
+                                    aria-haspopup='true'
                                     onClick={(event) =>
                                       handleClick(event, course.guid)
                                     }
-                                    className="no-pd"
+                                    className='no-pd'
                                   >
                                     <MoreVertOutlinedIcon />
                                   </IconButton>
                                   <Menu
                                     sx={{
                                       boxShadow:
-                                        "0px 0px 7px -5px rgba(0,0,0,0.1)",
+                                        '0px 0px 7px -5px rgba(0,0,0,0.1)',
                                     }}
-                                    id="long-menu1"
+                                    id='long-menu1'
                                     MenuListProps={{
-                                      "aria-labelledby": "long-button1",
+                                      'aria-labelledby': 'long-button1',
                                     }}
                                     anchorEl={anchorEl}
                                     open={open}
@@ -359,7 +359,7 @@ const Subjects = () => {
                                     PaperProps={{
                                       style: {
                                         maxHeight: ITEM_HEIGHT * 4.5,
-                                        width: "20ch",
+                                        width: '20ch',
                                       },
                                     }}
                                   >
@@ -372,8 +372,8 @@ const Subjects = () => {
                                         >
                                           <Link
                                             href={linkUrl}
-                                            underline="none"
-                                            color="inherit"
+                                            underline='none'
+                                            color='inherit'
                                           >
                                             {option.label}
                                           </Link>
@@ -381,7 +381,7 @@ const Subjects = () => {
                                       );
                                     })}
                                     <MenuItem
-                                      value="delete"
+                                      value='delete'
                                       onClick={handleConfirmOpen}
                                     >
                                       Delete
@@ -394,8 +394,8 @@ const Subjects = () => {
                                   <Link
                                     href={`/course/manage/${course.guid}`}
                                     sx={{
-                                      textDecoration: "none",
-                                      color: "inherit",
+                                      textDecoration: 'none',
+                                      color: 'inherit',
                                     }}
                                   >
                                     {course.title}
@@ -406,27 +406,27 @@ const Subjects = () => {
                                 <h4>{course.created_by}</h4>
                               </Grid>
                               <Grid item xs={12} md={2}>
-                                {course.status === "0" ? (
+                                {course.status === '0' ? (
                                   <Typography
-                                    variant="span"
-                                    component="span"
-                                    color="secondary"
+                                    variant='span'
+                                    component='span'
+                                    color='secondary'
                                   >
                                     Unpublished
                                   </Typography>
-                                ) : course.status === "1" ? (
+                                ) : course.status === '1' ? (
                                   <Typography
-                                    variant="span"
-                                    component="span"
+                                    variant='span'
+                                    component='span'
                                     color={successColor}
                                   >
                                     Published
                                   </Typography>
                                 ) : (
                                   <Typography
-                                    variant="span"
-                                    component="span"
-                                    color="primary"
+                                    variant='span'
+                                    component='span'
+                                    color='primary'
                                   >
                                     Archived
                                   </Typography>
@@ -435,27 +435,27 @@ const Subjects = () => {
                               <Grid item xs={12} md={1}>
                                 <Grid
                                   item
-                                  sx={{ display: { xs: "none", md: "block" } }}
+                                  sx={{ display: { xs: 'none', md: 'block' } }}
                                 >
                                   <IconButton
-                                    aria-label="more"
-                                    id="long-button"
+                                    aria-label='more'
+                                    id='long-button'
                                     aria-controls={
-                                      open ? "long-menu" : undefined
+                                      open ? 'long-menu' : undefined
                                     }
-                                    aria-expanded={open ? "true" : undefined}
-                                    aria-haspopup="true"
+                                    aria-expanded={open ? 'true' : undefined}
+                                    aria-haspopup='true'
                                     onClick={(event) =>
                                       handleClick(event, course.guid)
                                     }
-                                    className="no-pd"
+                                    className='no-pd'
                                   >
                                     <MoreVertOutlinedIcon />
                                   </IconButton>
                                   <Menu
-                                    id="long-menu"
+                                    id='long-menu'
                                     MenuListProps={{
-                                      "aria-labelledby": "long-button",
+                                      'aria-labelledby': 'long-button',
                                     }}
                                     anchorEl={anchorEl}
                                     open={open}
@@ -463,7 +463,7 @@ const Subjects = () => {
                                     PaperProps={{
                                       style: {
                                         maxHeight: ITEM_HEIGHT * 4.5,
-                                        width: "20ch",
+                                        width: '20ch',
                                       },
                                     }}
                                   >
@@ -476,8 +476,8 @@ const Subjects = () => {
                                         >
                                           <Link
                                             href={linkUrl}
-                                            underline="none"
-                                            color="inherit"
+                                            underline='none'
+                                            color='inherit'
                                           >
                                             {option.label}
                                           </Link>
@@ -485,7 +485,7 @@ const Subjects = () => {
                                       );
                                     })}
                                     <MenuItem
-                                      value="delete"
+                                      value='delete'
                                       onClick={handleConfirmOpen}
                                     >
                                       Delete
@@ -498,7 +498,7 @@ const Subjects = () => {
                         ))}
                     </Card>
                   ) : (
-                    <Alert sx={{ mt: 5 }} severity="error">
+                    <Alert sx={{ mt: 5 }} severity='error'>
                       Course not found!
                     </Alert>
                   )}
@@ -507,7 +507,7 @@ const Subjects = () => {
               <Grid
                 container
                 spacing={2}
-                sx={{ mt: 5, justifyContent: "center" }}
+                sx={{ mt: 5, justifyContent: 'center' }}
               >
                 <Grid item>
                   {filteredCourse && filteredCourse.length > coursePerPage ? (
@@ -515,16 +515,16 @@ const Subjects = () => {
                       <Grid
                         item
                         sx={{
-                          textAlign: "center",
-                          display: "flex",
-                          justifyContent: "center",
-                          width: "100%",
+                          textAlign: 'center',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          width: '100%',
                         }}
                       >
                         <ButtonGroup
-                          color="primary"
-                          aria-label="outlined primary button group"
-                          className="pagination-button"
+                          color='primary'
+                          aria-label='outlined primary button group'
+                          className='pagination-button'
                         >
                           <Button
                             onClick={prePage}
@@ -534,12 +534,12 @@ const Subjects = () => {
                           </Button>
                           {numbers.map((n, i) => (
                             <Button
-                              className={currentPage === n ? "active" : ""}
+                              className={currentPage === n ? 'active' : ''}
                               key={i}
                               onClick={() => changeCPage(n)}
                               style={{
                                 backgroundColor:
-                                  currentPage === n ? primaryColor : "",
+                                  currentPage === n ? primaryColor : '',
                               }}
                             >
                               {n}
@@ -555,13 +555,13 @@ const Subjects = () => {
                       </Grid>
                     </Grid>
                   ) : (
-                    ""
+                    ''
                   )}
                 </Grid>
               </Grid>
             </>
           ) : (
-            <Alert sx={{ mt: 5 }} severity="error">
+            <Alert sx={{ mt: 5 }} severity='error'>
               Course not found!
             </Alert>
           )}
